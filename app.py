@@ -1,7 +1,3 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3']=sys.modules.pop('pysqlite3')
-
 from dotenv import load_dotenv # type: ignore
 load_dotenv()
 import streamlit as st # type: ignore
@@ -29,9 +25,25 @@ def get_gemini_response(input,pdf_content,prompt):
         # If response contains parts and each part contains text
     #else:
      
-
+import fitz
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
+        doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+        first_page = doc.load_page(0)  # load the first page
+        pix = first_page.get_pixmap()  # render page to an image
+        img_byte_arr = io.BytesIO()
+        pix.save(img_byte_arr, "jpeg")  # save image to a bytes buffer
+
+        pdf_parts = [
+            {
+                "mime_type": "image/jpeg",
+                "data": base64.b64encode(img_byte_arr.getvalue()).decode()  # encode to base64
+            }
+        ]
+        return pdf_parts
+    else:
+        raise FileNotFoundError("No File Uploaded")
+    
         #convert the pdf to image
         images=pdf2image.convert_from_bytes(uploaded_file.read())
 
@@ -70,8 +82,9 @@ submit3=st.button("Percentage Match")
 input_prompt1 = """
 You are an experienced HR professional specializing in the tech industry in the field of Data Science, Machine learning engineer, Project Manager, Scrum engineer, ETL Developer,
 Full Stack Web Development, Database Developer, Cloud Engineer, Data engineer, Data Analyst, your task is to review the provided resume against the job description for those profiles.
-Please share your professional evaluation on whether the Candidate's profile aligns with the job description.
-Highlight the strengths and weaknesses of the applicant in relation to the specified job description or role. Dont prompt candidate resume again and again just follow prompts given.
+Please share your professional evaluation on whether the Candidate's profile/resume aligns with the job description.
+Highlight only the strengths and weaknesses of the applicant in relation to the specified job description. Dont prompt candidate resume again and again just follow prompts given.
+Don't display candidate's name,expereince,education,projects explicitly from the candidate's pdf resume just mention professional evaluation, weaknesses,strengths.
 """
 
 
@@ -84,9 +97,9 @@ Highlight the strengths and weaknesses of the applicant in relation to the speci
 input_prompt3= """
 You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of Data Science, Full Stack Web Development,
 Data Science Analyst, SQL Developer, Big Data Engineer, System Administrator, Database Developer, Cloud Engineer, Machine learning engineer, Project Manager, Scrum engineer, ETL Developer. 
-Your task is to evaluate the resume against the provided job description. You should give me the resume percentage match based on key criteria in job descriptions 
-such as required skills, requirements, prefered qualifications,and suggest areas of improvement to increase the match percentage. Dont prompt candidate resume again and again just follow prompts given.
-"""
+ You should give me the resume percentage match based on key criteria in job description text provided by the candidate.
+and suggest areas of improvement to increase the match percentage. Dont prompt candidate resume again and again just follow prompts given.
+Don't display candidate's name,expereince,education, projects explicitly from the candidate's pdf resume pdf. Just give percentage match and steps to improve the percentage by adding necessary skills from the job description. """
 
 if submit1:
     if uploaded_file is not None:
@@ -104,4 +117,6 @@ elif submit3:
         st.write(response)
      else:
         st.write("Please upload the resume")
+
+
 
