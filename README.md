@@ -23,5 +23,10 @@ Install dependencies using pip install -r requirements.txt.
 Run the Streamlit application using streamlit run app.py.
 
 Application Screenshots
-<img width="1512" alt="Screenshot 2024-04-30 at 11 47 58 PM" src="https://github.com/sasankyadavd99/ATS-App-LLM/assets/160814035/382a99a6-06ae-456b-a19a-2964deab3227">
+<img width="1000" alt="Screenshot 2024-04-30 at 11 47 58 PM" src="https://github.com/sasankyadavd99/ATS-App-LLM/assets/160814035/382a99a6-06ae-456b-a19a-2964deab3227">
+<img width="1512" alt="Screenshot 2024-04-30 at 11 49 05 PM" src="https://github.com/sasankyadavd99/ATS-App-LLM/assets/160814035/ce146332-cfb2-472a-8493-05996ef0f682">
+<img width="1512" alt="Screenshot 2024-04-30 at 11 49 27 PM" src="https://github.com/sasankyadavd99/ATS-App-LLM/assets/160814035/a05f505e-9909-40e4-b1de-8495ad9902bd">
+
+
+
 
