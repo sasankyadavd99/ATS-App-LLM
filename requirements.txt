@@ -3,3 +3,4 @@ streamlit
 google-generativeai
 python-dotenv
 pdf2image
+PyMuPDF==1.19.6
