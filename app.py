@@ -11,8 +11,8 @@ import base64
 from PIL import Image # type: ignore
 import pdf2image # type: ignore
 import google.generativeai as genai # type: ignore
-HF_TOKEN =st.secrets['HUGGINGFACE_ACCESS_TOKEN']
-os.environ['HUGGINGFACE_API_TOKEN']=HF_TOKEN
+#HF_TOKEN =st.secrets['HUGGINGFACE_ACCESS_TOKEN']
+#os.environ['HUGGINGFACE_API_TOKEN']=HF_TOKEN
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
